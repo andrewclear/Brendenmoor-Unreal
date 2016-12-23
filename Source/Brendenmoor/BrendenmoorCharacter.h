@@ -1,7 +1,11 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "CBaseSkill.h"
 #include "BrendenmoorCharacter.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FBattleSystemEventDelegate_OnBattleActionInitiated, ACBaseCharacter*, attacker, ACBaseSkill*, skillUsed, TArray<ACBaseCharacter*>, defenders);
+
 
 UCLASS(config=Game)
 class ABrendenmoorCharacter : public ACharacter
@@ -25,6 +29,9 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Battle Events")
+	FBattleSystemEventDelegate_OnBattleActionInitiated onBattleActionInitiated;
 
 protected:
 
