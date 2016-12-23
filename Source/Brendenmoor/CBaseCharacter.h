@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "CStandardAttributes.h"
 #include "CBaseCharacter.generated.h"
 
 UCLASS()
@@ -13,6 +14,10 @@ class BRENDENMOOR_API ACBaseCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ACBaseCharacter();
+
+	//Components
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Attributes")
+	class UCStandardAttributes* standardAttributes;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
