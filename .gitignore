@@ -10,3 +10,7 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+/Content/Maps/Themis/Idunn/Fjell_Snaer/Fjell_Snaer_01_BuiltData.uasset
+/Content/Maps/Themis/Idunn/Fjell_Snaer/Fjell_Snaer_02_BuiltData.uasset
+/Content/Maps/Themis/Idunn/Kenrot_Sennefer/Khenrot_Sennefer_01_BuiltData.uasset
+/Content/Maps/Themis/ThemisMasterLevel_BuiltData.uasset
