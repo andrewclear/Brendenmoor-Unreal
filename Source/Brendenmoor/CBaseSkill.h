@@ -14,12 +14,19 @@ public:
 	// Sets default values for this actor's properties
 	ACBaseSkill();
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Skills")
+	AActor* Attacker;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Skills")
+	TArray<AActor*> Defenders;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	
-	
+	UFUNCTION(BlueprintImplementableEvent, Category = "Battle Skills")
+	void ExecuteSkill();
+	virtual void ExecuteSkill_Implementation();
 };

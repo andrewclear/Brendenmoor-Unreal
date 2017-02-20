@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Brendenmoor.h"
+#include "TimerManager.h"
+#include "Engine.h"
 #include "BattleSystemComponent.h"
 
 
@@ -20,6 +22,8 @@ void UBattleSystemComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetWorld()->GetTimerManager().SetTimer(AutoAttackTimerHandle, this, &UBattleSystemComponent::UpdateAutoAttackTimer, 1.0f, true);
+	GetWorld()->GetTimerManager().PauseTimer(AutoAttackTimerHandle);
 	// ...
 	
 }
@@ -30,6 +34,60 @@ void UBattleSystemComponent::TickComponent( float DeltaTime, ELevelTick TickType
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
+	if (autoAttack == true)
+	{
+		if (autoAttackDelayTimer >= autoAttackDelay)
+		{
+			//TArray<AActor*> emptyArray;
+			//onBattleActionInitiated.Broadcast(nullptr, nullptr, emptyArray);
+
+			if (autoAttackSkill)
+			{
+				autoAttackSkill->ExecuteSkill();
+			}
+
+			ResetAutoAttackDelayTimer();
+		}
+
+	}
 	// ...
+}
+
+bool UBattleSystemComponent::IsAttacking()
+{
+	return autoAttack;
+}
+
+void UBattleSystemComponent::ResetAutoAttackDelayTimer()
+{
+	autoAttackDelayTimer = 0;
+}
+
+void UBattleSystemComponent::StartAutoAttack(ACBaseSkill *newAutoAttackSkill)
+{
+	if (autoAttack == false)
+	{
+		autoAttack = true;
+		autoAttackSkill = newAutoAttackSkill;
+
+		ResetAutoAttackDelayTimer();
+		GetWorld()->GetTimerManager().UnPauseTimer(AutoAttackTimerHandle);
+	}
+}
+
+void UBattleSystemComponent::StopAutoAttack()
+{
+	if (autoAttack == true)
+	{
+		autoAttack = false;
+		autoAttackSkill = nullptr;
+
+		GetWorld()->GetTimerManager().PauseTimer(AutoAttackTimerHandle);
+	}
+}
+
+void UBattleSystemComponent::UpdateAutoAttackTimer()
+{
+	autoAttackDelayTimer++;
 }
 

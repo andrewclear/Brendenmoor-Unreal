@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Brendenmoor.h"
+#include "Engine.h"
 #include "CBaseSkill.h"
 
 
@@ -25,4 +26,18 @@ void ACBaseSkill::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
+
+//void ACBaseSkill::ExecuteSkill()
+//{
+
+//}
+
+void ACBaseSkill::ExecuteSkill_Implementation()
+{
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Execute Skill"));
+	}
+}
+
 

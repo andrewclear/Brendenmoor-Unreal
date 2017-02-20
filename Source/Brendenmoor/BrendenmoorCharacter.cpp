@@ -30,6 +30,7 @@ ABrendenmoorCharacter::ABrendenmoorCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	standardAttributes = CreateDefaultSubobject<UCStandardAttributes>(FName("StandardAttributes"));
+	battleSystemComponent = CreateDefaultSubobject<UBattleSystemComponent>(FName("BattleSystem"));
 	targettingSystem = CreateDefaultSubobject<UTargettingSystemComponent>(FName("TargettingSystem"));
 
 	AddOwnedComponent(standardAttributes);
@@ -125,4 +126,26 @@ void ABrendenmoorCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void ABrendenmoorCharacter::ToggleAutoAttack()
+{
+	if (battleSystemComponent->IsAttacking())
+	{
+		battleSystemComponent->StopAutoAttack();
+	}
+	else
+	{
+		if (autoAttackSkill)
+		{
+			autoAttackSkill->Defenders.Empty();
+			autoAttackSkill->Defenders.Add(targettingSystem->GetNearestEnemy());
+			battleSystemComponent->StartAutoAttack(autoAttackSkill);
+		}
+	}
+}
+
+void ABrendenmoorCharacter::Tick(float deltaTime)
+{
+	Super::Tick(deltaTime);
 }

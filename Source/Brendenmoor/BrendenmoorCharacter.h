@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "CStandardAttributes.h"
 #include "TargettingSystemComponent.h"
+#include "BattleSystemComponent.h"
 #include "BrendenmoorCharacter.generated.h"
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FBattleSystemEventDelegate_OnBattleActionInitiated, ACBaseCharacter*, attacker, ACBaseSkill*, skillUsed, TArray<ACBaseCharacter*>, defenders);
@@ -30,17 +31,28 @@ public:
 	class UCStandardAttributes* standardAttributes;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Battle System")
+	class UBattleSystemComponent* battleSystemComponent;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Battle System")
 	class UTargettingSystemComponent* targettingSystem;
 
 	/** Character Name. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 	FName CharacterName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Battle Skills")
+	ACBaseSkill *autoAttackSkill;
+
 	//UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Battle Events")
 	//FBattleSystemEventDelegate_OnBattleActionInitiated onBattleActionInitiated;
 
+	UFUNCTION(BlueprintCallable, Category = "Battle System")
+	void ToggleAutoAttack();
+
 	UFUNCTION(BlueprintCallable, Category = "Targetting System")
 	void UpdateCharacterArray(TArray<AActor*> pCharacterArray);
+
+	virtual void Tick(float deltaTime) override;
 
 protected:
 
