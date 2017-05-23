@@ -17,8 +17,8 @@ class BRENDENMOOR_API UBattleSystemComponent : public UActorComponent
 	
 
 	bool autoAttack = false;
-	INT32 autoAttackDelay = 2;
-	INT32 autoAttackDelayTimer = 0;
+	int32 autoAttackDelay = 2;
+	int32 autoAttackDelayTimer = 0;
 
 	FTimerHandle AutoAttackTimerHandle;
 	void UpdateAutoAttackTimer();

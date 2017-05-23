@@ -12,9 +12,9 @@ class BRENDENMOOR_API UTargettingSystemComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-	const UINT16	UPDATE_INTERVAL = 10;
+	const uint16	UPDATE_INTERVAL = 10;
 	const float		MAX_DISTANCE_FROM_TARGET_TO_BE_SELECTABLE = 1500.0;
-	UINT16			uiTickCounter = 0;
+	uint16			uiTickCounter = 0;
 
 	void UpdateSelectableTargetsArray();
 

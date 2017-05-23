@@ -47,7 +47,7 @@ AActor * UTargettingSystemComponent::GetNearestEnemy()
 	AActor *pNearestEnemy = nullptr;
 	SelectableTarget *pCurrentTarget = nullptr;
 
-	for (INT32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
+	for (int32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
 	{
 		if (pCurrentTarget == nullptr)
 		{
@@ -83,7 +83,7 @@ AActor * UTargettingSystemComponent::GetPreviousEnemy()
 
 void UTargettingSystemComponent::UpdateSelectableTargetsArray()
 {
-	for (INT32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
+	for (int32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
 	{ 
 		delete arraySelectableTargets[arrayLocation];
 	}
@@ -91,7 +91,7 @@ void UTargettingSystemComponent::UpdateSelectableTargetsArray()
 	arraySelectableTargets.Empty();
 
 
-	for (INT32 arrayLocation = 0; arrayLocation < arrayAllLoadedCharacters.Num(); arrayLocation++)
+	for (int32 arrayLocation = 0; arrayLocation < arrayAllLoadedCharacters.Num(); arrayLocation++)
 	{
 		ABrendenmoorCharacter *pCharacter = Cast<ABrendenmoorCharacter>(arrayAllLoadedCharacters[arrayLocation]);
 
