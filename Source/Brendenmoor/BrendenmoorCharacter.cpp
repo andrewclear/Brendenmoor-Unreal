@@ -37,6 +37,29 @@ ABrendenmoorCharacter::ABrendenmoorCharacter()
 	AddOwnedComponent(targettingSystem);
 }
 
+void ABrendenmoorCharacter::GetAllCharactersInScene()
+{
+	TArray<AActor*> arrayFoundCharacters;
+	TArray<AActor*> arrayCharactersToAdd;
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABrendenmoorCharacter::StaticClass(), arrayFoundCharacters);
+
+	for (int32 arrayLocation = 0; arrayLocation < arrayFoundCharacters.Num(); arrayLocation++)
+	{
+		if (arrayFoundCharacters[arrayLocation] != this)
+		{
+			arrayCharactersToAdd.Add(arrayFoundCharacters[arrayLocation]);
+		}
+	}
+
+	UpdateCharacterArray(arrayCharactersToAdd);
+}
+
+void ABrendenmoorCharacter::UpdateCharacterArray(TArray<AActor*> pCharacterArray)
+{
+	targettingSystem->arrayAllLoadedCharacters = pCharacterArray;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -66,11 +89,6 @@ void ABrendenmoorCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ABrendenmoorCharacter::OnResetVR);
 }
 
-
-void ABrendenmoorCharacter::UpdateCharacterArray(TArray<AActor*> pCharacterArray)
-{
-	targettingSystem->arrayAllLoadedCharacters = pCharacterArray;
-}
 
 void ABrendenmoorCharacter::OnResetVR()
 {
@@ -143,6 +161,13 @@ void ABrendenmoorCharacter::ToggleAutoAttack()
 			battleSystemComponent->StartAutoAttack(autoAttackSkill);
 		}
 	}
+}
+
+void ABrendenmoorCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetAllCharactersInScene();
 }
 
 void ABrendenmoorCharacter::Tick(float deltaTime)

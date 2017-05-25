@@ -69,6 +69,7 @@ void UBattleSystemComponent::StartAutoAttack(ACBaseSkill *newAutoAttackSkill)
 	{
 		autoAttack = true;
 		autoAttackSkill = newAutoAttackSkill;
+		//autoAttackSkill->Defenders
 
 		ResetAutoAttackDelayTimer();
 		GetWorld()->GetTimerManager().UnPauseTimer(AutoAttackTimerHandle);

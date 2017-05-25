@@ -54,6 +54,9 @@ public:
 
 	virtual void Tick(float deltaTime) override;
 
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 protected:
 
 	/** Resets HMD orientation in VR. */
@@ -82,6 +85,9 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	/** Get all the characters in the scene and add them to the targetting system*/
+	void GetAllCharactersInScene();
 
 protected:
 	// APawn interface

@@ -30,5 +30,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32			Intelligence;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32			Health;
 	
 };
