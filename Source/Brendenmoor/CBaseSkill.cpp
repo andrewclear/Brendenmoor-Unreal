@@ -3,6 +3,7 @@
 #include "Brendenmoor.h"
 #include "Engine.h"
 #include "CBaseSkill.h"
+#include "CStandardAttributes.h"
 
 
 // Sets default values
@@ -38,6 +39,61 @@ void ACBaseSkill::ExecuteSkill_Implementation()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Execute Skill"));
 	}
+}
+
+
+float ACBaseSkill::CalculateBaseMeleeDamage()
+{
+	//D = WeaponDamage
+	//aD = AmmoDamage
+	//fSTR = StrengthVitalityModifier
+	//BaseDamage = D + (aD)+fSTR
+	
+	UCStandardAttributes *attackerAttributes = Cast<UCStandardAttributes>(Attacker->GetComponentByClass(UCStandardAttributes::StaticClass()));
+	UCStandardAttributes *defendersAttributes = Cast<UCStandardAttributes>(Defenders[0]->GetComponentByClass(UCStandardAttributes::StaticClass()));
+
+	return CalculateStrengthVitalityModifier(attackerAttributes->Strength, defendersAttributes->Vitality);
+}
+
+float ACBaseSkill::CalculateStrengthVitalityModifier(float attackerStrength, float defenderVitality)
+{
+	float detlaStrengthVitality = attackerStrength - defenderVitality;
+	float rangeModifier = 0.0f;
+
+	if (detlaStrengthVitality <= -22.0f)
+	{
+		rangeModifier = 13.0f;
+	}
+	else if (detlaStrengthVitality > -22.0f && detlaStrengthVitality <= -16.0f)
+	{
+		rangeModifier = 12.0f;
+	}
+	else if (detlaStrengthVitality > -16.0f && detlaStrengthVitality <= -8.0f)
+	{
+		rangeModifier = 10.0f;
+	}
+	else if (detlaStrengthVitality > -8.0f && detlaStrengthVitality <= -3.0f)
+	{
+		rangeModifier = 9.0f;
+	}
+	else if (detlaStrengthVitality > -3.0f && detlaStrengthVitality <= -0.0f)
+	{
+		rangeModifier = 8.0f;
+	}
+	else if (detlaStrengthVitality > 0.0 && detlaStrengthVitality <= 5.0f)
+	{
+		rangeModifier = 7.0f;
+	}
+	else if (detlaStrengthVitality > 5.0 && detlaStrengthVitality <= 11.0f)
+	{
+		rangeModifier = 6.0f;
+	}
+	else if (detlaStrengthVitality >= 12.0f)
+	{
+		rangeModifier = 4.0f;
+	}
+
+	return (detlaStrengthVitality + rangeModifier) / 4;
 }
 
 

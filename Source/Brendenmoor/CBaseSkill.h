@@ -9,7 +9,7 @@ UCLASS()
 class BRENDENMOOR_API ACBaseSkill : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	ACBaseSkill();
@@ -29,4 +29,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Battle Skills")
 	void ExecuteSkill();
 	virtual void ExecuteSkill_Implementation();
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Battle Skills")
+	float CalculateBaseMeleeDamage();
+
+protected:
+	//UFUNCTION(BlueprintImplementableEvent, Category = "Battle Skills")
+	//float CalculateBaseMeleeDamage();
+
+	float CalculateStrengthVitalityModifier(float attackerStrength, float defenderVitality);
 };

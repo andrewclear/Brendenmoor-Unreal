@@ -12,6 +12,7 @@ UCLASS()
 class BRENDENMOOR_API UCStandardAttributes : public UCBaseAttributes
 {
 	GENERATED_BODY()
+
 public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int32			Strength;
@@ -31,8 +32,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32			Intelligence;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32			Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32			Mana;
 	
+	UFUNCTION(BlueprintCallable, Category = "Battle System")
+	void			TakeDamage(int32 amountOfDamage);
 };
