@@ -33,7 +33,10 @@ public:
 	int32			Intelligence;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32			Health;
+	int32			CurrentHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32			MaxHealth;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32			Mana;

@@ -6,7 +6,7 @@
 UFUNCTION(BlueprintCallable, Category = "Battle System")
 void	UCStandardAttributes::TakeDamage(int32 amountOfDamage)
 {
-	Health -= amountOfDamage;
+	CurrentHealth -= amountOfDamage;
 }
 
 
