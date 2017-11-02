@@ -5,6 +5,28 @@
 #include "GameFramework/Actor.h"
 #include "CBaseSkill.generated.h"
 
+UENUM(BlueprintType)		//"BlueprintType" is essential to include
+enum class ETargetType : uint8
+{
+	VE_Single 					UMETA(DisplayName = "Single Target Attack"),
+	VE_AOEAroundTarget 			UMETA(DisplayName = "AOE Around Target"),
+	VE_AOEAroundAttacker		UMETA(DisplayName = "AOE Around Attacker"),
+	VE_AOEInFrontOfAttacker		UMETA(DisplayName = "AOE In Front Attacker")
+};
+
+/*
+UCLASS()
+class YourClass : public YourSuperClass
+{
+	GENERATED_UCLASS_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+		EVictoryEnum VictoryEnum;
+
+	//Rest of Class Code
+};
+*/
+
 UCLASS()
 class BRENDENMOOR_API ACBaseSkill : public AActor
 {
@@ -19,6 +41,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Skills")
 	TArray<AActor*> Defenders;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Skills")
+	AActor* Defender;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enum)
+	ETargetType TargetTypeEnum;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

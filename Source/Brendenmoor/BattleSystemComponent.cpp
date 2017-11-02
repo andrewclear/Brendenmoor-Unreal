@@ -3,7 +3,11 @@
 #include "Brendenmoor.h"
 #include "TimerManager.h"
 #include "Engine.h"
+#include "BrendenmoorCharacter.h"
+#include "BrendenmoorGameInstance.h"
+#include "GlobalEventHandler.h"
 #include "BattleSystemComponent.h"
+#include "BrendenmoorSingletonLibrary.h"
 
 
 // Sets default values for this component's properties
@@ -38,19 +42,30 @@ void UBattleSystemComponent::TickComponent( float DeltaTime, ELevelTick TickType
 	{
 		if (autoAttackDelayTimer >= autoAttackDelay)
 		{
-			//TArray<AActor*> emptyArray;
-			//onBattleActionInitiated.Broadcast(nullptr, nullptr, emptyArray);
-
-			if (autoAttackSkill)
+			if (Cast<ABrendenmoorCharacter>(GetOwner())->targettingSystem->CurrentTarget == nullptr)
 			{
-				autoAttackSkill->ExecuteSkill();
+				StopAutoAttack();
+				return;
+			}
+
+			UBrendenmoorGameInstance *gameInstance = nullptr;
+			UGameInstance *uncastedInstance;
+
+			if (GetWorld() && GetWorld()->GetGameInstance())
+			{
+				uncastedInstance = GetWorld()->GetGameInstance();
+				gameInstance = Cast<UBrendenmoorGameInstance>(uncastedInstance);
+			}
+
+			if (gameInstance)
+			{
+				TArray<AActor*> defenders;
+				gameInstance->GetEventHandler()->OnBattleActionInitiated.Broadcast(GetOwner(), autoAttackSkill);
 			}
 
 			ResetAutoAttackDelayTimer();
 		}
-
 	}
-	// ...
 }
 
 bool UBattleSystemComponent::IsAttacking()
@@ -69,7 +84,6 @@ void UBattleSystemComponent::StartAutoAttack(ACBaseSkill *newAutoAttackSkill)
 	{
 		autoAttack = true;
 		autoAttackSkill = newAutoAttackSkill;
-		//autoAttackSkill->Defenders
 
 		ResetAutoAttackDelayTimer();
 		GetWorld()->GetTimerManager().UnPauseTimer(AutoAttackTimerHandle);

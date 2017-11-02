@@ -96,4 +96,3 @@ float ACBaseSkill::CalculateStrengthVitalityModifier(float attackerStrength, flo
 	return (detlaStrengthVitality + rangeModifier) / 4;
 }
 
-

@@ -5,19 +5,18 @@
 #include "GameFramework/Actor.h"
 #include "CBaseSkill.h"
 #include "BattleSystemComponent.h"
+#include "GlobalEventHandler.h"
 #include "BattleSystemCommandProcessor.generated.h"
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FBattleSystemEventDelegate_OnBattleActionInitiated, AActor*, attacker, ACBaseSkill*, skillUsed, TArray<AActor*>, defenders);
-
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class BRENDENMOOR_API ABattleSystemCommandProcessor : public AActor
 {
 	GENERATED_BODY()
 
-	FBattleSystemEventDelegate_OnBattleActionInitiated onBattleActionInitiated;
-	
 	UFUNCTION()
-	void BindOnBattleActionInitiated(AActor *attacker, ACBaseSkill *skillUsed, TArray<AActor*> defenders);
+	void OnBattleActionInitiated(AActor *attacker, ACBaseSkill *skillUsed);
+
+	FString test;
 
 public:	
 	// Sets default values for this actor's properties
@@ -25,9 +24,14 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void EndPlay(EEndPlayReason::Type EndPlayReason) override;
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
+
+	void BindEvents(UGlobalEventHandler *Events);
+	void UnbindEvents(UGlobalEventHandler *Events);
 
 	
 	

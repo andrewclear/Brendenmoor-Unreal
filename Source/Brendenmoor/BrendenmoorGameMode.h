@@ -3,6 +3,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "BrendenmoorGameMode.generated.h"
 
+
 UCLASS(minimalapi)
 class ABrendenmoorGameMode : public AGameModeBase
 {

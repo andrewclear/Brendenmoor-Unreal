@@ -7,13 +7,13 @@
 #include "TargettingSystemComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+//UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, BlueprintType)
 class BRENDENMOOR_API UTargettingSystemComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 	const uint16	UPDATE_INTERVAL = 10;
-	const float		MAX_DISTANCE_FROM_TARGET_TO_BE_SELECTABLE = 1500.0;
 	uint16			uiTickCounter = 0;
 
 	void UpdateSelectableTargetsArray();
@@ -28,6 +28,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Targets)
 	float DebugDistance;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Targets)
+	AActor* CurrentTarget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Targets)
+	float RadiusForSphereTrace = 2000.0;
 
 	// Sets default values for this component's properties
 	UTargettingSystemComponent();
@@ -38,6 +43,10 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Battle Skills")
+	void GetAllNearbyActors();
+	void GetAllNearbyActors_Implementation();
+
 	UFUNCTION(BlueprintCallable, Category = "Targetting System")
 	AActor*	GetNearestEnemy();
 
@@ -46,5 +55,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Targetting System")
 	AActor*	GetPreviousEnemy();
+
+	UFUNCTION(BlueprintCallable, Category = "Targetting System")
+	bool IsCurrentTargetValid();
+
+	UFUNCTION(BlueprintCallable, Category = "Targetting System")
+	void SelectTarget(bool cycleInNextDirection);
 
 };

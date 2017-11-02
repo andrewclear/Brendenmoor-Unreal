@@ -31,10 +31,10 @@ ABrendenmoorCharacter::ABrendenmoorCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	standardAttributes = CreateDefaultSubobject<UCStandardAttributes>(FName("StandardAttributes"));
 	battleSystemComponent = CreateDefaultSubobject<UBattleSystemComponent>(FName("BattleSystem"));
-	targettingSystem = CreateDefaultSubobject<UTargettingSystemComponent>(FName("TargettingSystem"));
+	//targettingSystem = CreateDefaultSubobject<UTargettingSystemComponent>(FName("TargettingSystem"));
 
 	AddOwnedComponent(standardAttributes);
-	AddOwnedComponent(targettingSystem);
+	//AddOwnedComponent(targettingSystem);
 }
 
 void ABrendenmoorCharacter::GetAllCharactersInScene()
