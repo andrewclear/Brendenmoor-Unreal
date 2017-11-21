@@ -11,33 +11,41 @@ UBrendenmoorGameInstance::UBrendenmoorGameInstance(const FObjectInitializer& Obj
 
 UBrendenmoorGameInstance::~UBrendenmoorGameInstance()
 {
+	/*
+	if (!mEvents) return;
+	if (!mEvents->IsValidLowLevel()) return;
 
-	//if (mBattleCommandSystem)
-	//{
-	//	mBattleCommandSystem->UnbindEvents(mEvents);
-	//	mBattleCommandSystem->Destroy();
-	//}
+	mEvents->ConditionalBeginDestroy(); //instantly clears UObject out of memory
+	mEvents = nullptr;
+	*/
 
 	if (mEvents)
 	{
-		mEvents = nullptr;
+		mEvents->RemoveFromRoot();
 		delete mEvents;
+		mEvents = nullptr;
 	}
+}
 
+void UBrendenmoorGameInstance::Shutdown()
+{
+	Super::Shutdown();
+
+	if (!mEvents) return;
+	if (!mEvents->IsValidLowLevel()) return;
+
+	mEvents->RemoveFromRoot();
+	mEvents->ConditionalBeginDestroy(); //instantly clears UObject out of memory
+	mEvents = nullptr;
 }
 
 void UBrendenmoorGameInstance::InitializeMembers()
 {
 	if (mEvents == nullptr)
 	{
-		mEvents = NewObject<UGlobalEventHandler>();
+		mEvents = NewObject<UGlobalEventHandler>(this);
+		mEvents->AddToRoot();
 	}
-
-	//if (mBattleCommandSystem == nullptr)
-	//{
-	//	mBattleCommandSystem = NewObject<ABattleSystemCommandProcessor>();
-	//	mBattleCommandSystem->BindEvents(mEvents);
-	//}
 }
 
 UGlobalEventHandler* UBrendenmoorGameInstance::GetEventHandler()

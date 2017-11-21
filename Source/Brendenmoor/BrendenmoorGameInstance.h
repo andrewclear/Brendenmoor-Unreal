@@ -14,11 +14,12 @@ class BRENDENMOOR_API UBrendenmoorGameInstance : public UGameInstance
 	void InitializeMembers();
 
 	UGlobalEventHandler *mEvents = nullptr;
-	//ABattleSystemCommandProcessor *mBattleCommandSystem = nullptr;
 
 public:
 	UBrendenmoorGameInstance(const FObjectInitializer& ObjectInitializer);
 	~UBrendenmoorGameInstance();
+
+	void Shutdown() override;
 
 	UGlobalEventHandler* GetEventHandler();
 };

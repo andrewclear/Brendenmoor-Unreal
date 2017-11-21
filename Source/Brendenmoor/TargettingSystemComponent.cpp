@@ -78,9 +78,6 @@ AActor * UTargettingSystemComponent::GetNearestEnemy()
 		if (GEngine && (pNearestEnemy != CurrentTarget) && (Cast<APlayableCharacter>(pNearestEnemy) != nullptr))
 		{
 			FName name = Cast<ABrendenmoorCharacter>(pNearestEnemy)->CharacterName;
-
-			GEngine->AddOnScreenDebugMessage(-1, 0.25f, FColor::Yellow, name.ToString());
-			GEngine->AddOnScreenDebugMessage(-1, 0.25f, FColor::Yellow, FString::SanitizeFloat(DebugDistance));
 		}
 	}
 
@@ -90,12 +87,54 @@ AActor * UTargettingSystemComponent::GetNearestEnemy()
 
 AActor * UTargettingSystemComponent::GetNextEnemy()
 {
-	return nullptr;
+	int nextEnemyIndex = 0;
+
+	if (arraySelectableTargets.Num() <= 0)
+	{
+		return nullptr;
+	}
+
+	for (int32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
+	{
+		if (arraySelectableTargets[arrayLocation]->GetTarget() == CurrentTarget)
+		{
+			nextEnemyIndex = arrayLocation + 1;
+			break;
+		}
+	}
+
+	if (nextEnemyIndex >= arraySelectableTargets.Num())
+	{
+		nextEnemyIndex = 0;
+	}
+
+	return arraySelectableTargets[nextEnemyIndex]->GetTarget();
 }
 
 AActor * UTargettingSystemComponent::GetPreviousEnemy()
 {
-	return nullptr;
+	int prevEnemyIndex = 0;
+
+	if (arraySelectableTargets.Num() <= 0)
+	{
+		return nullptr;
+	}
+
+	for (int32 arrayLocation = 0; arrayLocation < arraySelectableTargets.Num(); arrayLocation++)
+	{
+		if (arraySelectableTargets[arrayLocation]->GetTarget() == CurrentTarget)
+		{
+			prevEnemyIndex = arrayLocation - 1;
+			break;
+		}
+	}
+
+	if (prevEnemyIndex < 0)
+	{
+		prevEnemyIndex = arraySelectableTargets.Num() - 1;
+	}
+
+	return arraySelectableTargets[prevEnemyIndex]->GetTarget();
 }
 
 bool UTargettingSystemComponent::IsCurrentTargetValid()

@@ -156,8 +156,6 @@ void ABrendenmoorCharacter::ToggleAutoAttack()
 	{
 		if (autoAttackSkill)
 		{
-			autoAttackSkill->Defenders.Empty();
-			autoAttackSkill->Defenders.Add(targettingSystem->GetNearestEnemy());
 			battleSystemComponent->StartAutoAttack(autoAttackSkill);
 		}
 	}

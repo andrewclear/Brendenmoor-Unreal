@@ -14,8 +14,6 @@ class BRENDENMOOR_API UGlobalEventHandler : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	//void InitializeComponent() override;
-
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Battle System Events")
 	FBattleSystemEventDelegate_OnBattleActionInitiated OnBattleActionInitiated;
 };

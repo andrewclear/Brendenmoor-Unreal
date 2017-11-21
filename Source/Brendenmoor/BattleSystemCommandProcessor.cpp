@@ -2,6 +2,7 @@
 
 #include "Brendenmoor.h"
 #include "Engine.h"
+#include "BrendenmoorCharacter.h"
 #include "BattleSystemCommandProcessor.h"
 #include "BrendenmoorGameInstance.h"
 #include "BrendenmoorSingletonLibrary.h"
@@ -17,6 +18,8 @@ ABattleSystemCommandProcessor::ABattleSystemCommandProcessor()
 
 void ABattleSystemCommandProcessor::BindEvents(UGlobalEventHandler *Events)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Bind"));
+
 	if (Events)
 	{
 		if (Events->OnBattleActionInitiated.IsBound())
@@ -37,6 +40,8 @@ void ABattleSystemCommandProcessor::BindEvents(UGlobalEventHandler *Events)
 
 void ABattleSystemCommandProcessor::UnbindEvents(UGlobalEventHandler *Events)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Unbind"));
+
 	if (Events)
 	{
 		if (GEngine)
@@ -45,11 +50,11 @@ void ABattleSystemCommandProcessor::UnbindEvents(UGlobalEventHandler *Events)
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, Events->GetName());
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Unbinding OnBindBattleActionInitiated"));
 		}
-	}
 
-	if (Events->OnBattleActionInitiated.IsBound())
-	{
-		Events->OnBattleActionInitiated.RemoveDynamic(this, &ABattleSystemCommandProcessor::OnBattleActionInitiated);
+		if (Events->OnBattleActionInitiated.IsBound())
+		{
+			Events->OnBattleActionInitiated.RemoveDynamic(this, &ABattleSystemCommandProcessor::OnBattleActionInitiated);
+		}
 	}
 }
 
@@ -57,6 +62,8 @@ void ABattleSystemCommandProcessor::UnbindEvents(UGlobalEventHandler *Events)
 // Called when the game starts or when spawned
 void ABattleSystemCommandProcessor::BeginPlay()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Begin Play"));
+
 	Super::BeginPlay();
 
 	UBrendenmoorGameInstance *gameInstance = Cast<UBrendenmoorGameInstance>(GetGameInstance());
@@ -70,6 +77,8 @@ void ABattleSystemCommandProcessor::BeginPlay()
 
 void ABattleSystemCommandProcessor::EndPlay(EEndPlayReason::Type EndPlayReason)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("End Play"));
+
 	Super::EndPlay(EndPlayReason);
 
 	UBrendenmoorGameInstance *gameInstance = Cast<UBrendenmoorGameInstance>(GetGameInstance());
@@ -83,12 +92,15 @@ void ABattleSystemCommandProcessor::EndPlay(EEndPlayReason::Type EndPlayReason)
 
 void ABattleSystemCommandProcessor::OnBattleActionInitiated(AActor *attacker, ACBaseSkill *skillUsed)
 {
-	//for (int i = 0; i < defenders.Num(); i++)
-	//{
-	//	skillUsed->Defender = defenders[i];
-	skillUsed->Attacker = attacker;
-	skillUsed->ExecuteSkill();
-	//}
+	if (skillUsed)
+	{
+		skillUsed->Attacker = attacker;
+		skillUsed->ExecuteSkill();
+	}
+	else
+	{
+		Cast<ABrendenmoorCharacter>(attacker)->battleSystemComponent->StopAutoAttack();
+	}
 }
 
 // Called every frame

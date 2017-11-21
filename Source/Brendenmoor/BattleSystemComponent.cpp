@@ -59,7 +59,6 @@ void UBattleSystemComponent::TickComponent( float DeltaTime, ELevelTick TickType
 
 			if (gameInstance)
 			{
-				TArray<AActor*> defenders;
 				gameInstance->GetEventHandler()->OnBattleActionInitiated.Broadcast(GetOwner(), autoAttackSkill);
 			}
 
